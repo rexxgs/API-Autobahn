@@ -1,0 +1,21 @@
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+
+import java.io.IOException;
+
+public class ApiService {
+    private static final String API_URL = "https://api.example.com/data";
+
+    public JsonNode fetchData() throws IOException {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet request = new HttpGet(API_URL);
+        CloseableHttpResponse response = httpClient.execute(request);
+
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readTree(response.getEntity().getContent());
+    }
+}
